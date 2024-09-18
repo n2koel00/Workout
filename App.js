@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BottomNavigation, MD3DarkTheme, PaperProvider } from 'react-native-paper';
-import Styles from './styles/Styles';
 import WorkoutContext from './components/WorkoutContext';
 import AllWorkouts from './components/AllWorkouts';
 import Settings from './components/Settings';
