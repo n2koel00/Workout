@@ -1,8 +1,9 @@
-import { Text, TextInput, ToggleButton, useTheme } from "react-native-paper";
+import { Button, Text, TextInput, ToggleButton, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Styles from '../styles/Styles';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { View } from "react-native";
+import WorkoutContext from "./WorkoutContext";
 
 
 const categories = ["run-fast","ski","swim"]
@@ -12,8 +13,13 @@ export default function AddWorkouts(){
     const [category, setCategory] = useState(categories[0]);
     const [distance, setDistance] = useState("");
     const [duration, setDuration] = useState("");
+    const {workout, setWorkout} = useContext(WorkoutContext);
     const theme = useTheme();
 
+    function addExercise(){
+        const modified = [...workout, {category, distance, duration}];
+        setWorkout(modified)
+    }
 
     return(
         <SafeAreaView style={Styles.container}>
@@ -37,6 +43,7 @@ export default function AddWorkouts(){
             value={duration} 
             onChangeText={setDuration}
         />
+        <Button mode="contained" style={Styles.button}>Add Workout</Button>
         </SafeAreaView>
     );
 }

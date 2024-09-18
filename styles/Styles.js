@@ -18,5 +18,8 @@ export default Styles = StyleSheet.create({
     },
     textInput:{
         margin:10
-    }
+    },
+    button:{
+        margin: 10
+    },
 });
