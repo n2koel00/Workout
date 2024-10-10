@@ -1,3 +1,5 @@
 import { createContext } from "react";
 
-export default WorkoutContext = createContext();
+const WorkoutContext = createContext();
+
+export default WorkoutContext;

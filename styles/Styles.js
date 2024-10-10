@@ -4,22 +4,39 @@ import Constants from "expo-constants";
 export default Styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems:"stretch",
+        alignItems: "stretch",
         padding: 10,
         paddingTop: Constants.statusBarHeight + 10
     },
-    categories:{
+    categories: {
         flexDirection: "row",
         justifyContent: "center",
         marginTop: 10,
     },
-    header:{
+    header: {
         textAlign: "center"
     },
-    textInput:{
-        margin:10
-    },
-    button:{
+    textInput: {
         margin: 10
+    },
+    button: {
+        margin: 10
+    },
+    card: {
+        borderWidth: 1,
+        margin: 10
+    },
+    totalContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 20,
+    },
+    totalItem: {
+        alignItems: 'center',
+    },
+    totalText: {
+        marginTop: 5,
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });

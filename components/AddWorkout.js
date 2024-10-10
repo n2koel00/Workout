@@ -1,8 +1,7 @@
 import { Button, Text, TextInput, ToggleButton, useTheme } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Styles from '../styles/Styles';
 import { useContext, useState } from "react";
-import { View } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import WorkoutContext from "./WorkoutContext";
 
 
@@ -15,11 +14,20 @@ export default function AddWorkouts(){
     const [duration, setDuration] = useState("");
     const {workout, setWorkout} = useContext(WorkoutContext);
     const theme = useTheme();
+//* add snackbar ??? adds a notification when adding a workout
 
-    function addExercise(){
-        const modified = [...workout, {category, distance, duration}];
-        setWorkout(modified)
-    }
+function addExercise() {
+    const newWorkout = {
+        id: Date.now().toString(),
+        category,
+        distance,
+        duration,
+        date: new Date().toDateString(),
+    };
+    const modified = [...workout, newWorkout];
+    setWorkout(modified);
+}
+
 
     return(
         <SafeAreaView style={Styles.container}>
@@ -43,7 +51,7 @@ export default function AddWorkouts(){
             value={duration} 
             onChangeText={setDuration}
         />
-        <Button mode="contained" style={Styles.button}>Add Workout</Button>
+        <Button mode="contained" style={Styles.button} onPress={addExercise}>Add Workout</Button>
         </SafeAreaView>
     );
 }
