@@ -1,9 +1,9 @@
 import { Avatar, Card, Text, useTheme } from "react-native-paper";
 import WorkoutContext from "./WorkoutContext";
+import UnitContext from "./UnitContext";
 import Styles from '../styles/Styles';
 import { useContext } from "react";
 import { FlatList, SafeAreaView, View } from "react-native";
-
 
 const categoryLabels = {
     "run-fast": "Run",
@@ -13,62 +13,66 @@ const categoryLabels = {
 
 export default function AllWorkouts() {
     const { workout } = useContext(WorkoutContext);
+    const { unit } = useContext(UnitContext);
     const theme = useTheme();
-
-    
-    const totals = calculateTotals(workout);
+    const totals = calculateTotals(workout, unit);
 
     return (
         <SafeAreaView style={Styles.container}>
             <Text variant="headlineLarge" style={[Styles.header, { color: theme.colors.primary }]}>All Workouts</Text>
 
-            
             <View style={Styles.totalContainer}>
                 {Object.keys(totals).map((category) => (
                     <View key={category} style={Styles.totalItem}>
                         <Avatar.Icon icon={category} size={40} />
-                        <Text style={Styles.totalText}>{categoryLabels[category]}: {totals[category]} km</Text>
+                        <Text style={Styles.totalText}>{categoryLabels[category]}: {convertToUnit(totals[category], unit)} {unit}</Text>
                     </View>
                 ))}
             </View>
 
-            
             <FlatList
                 data={workout}
-                renderItem={({ item }) => <Item item={item} />}
-                keyExtractor={(item) => item.date + ";" + item.category} 
+                renderItem={({ item }) => <Item item={item} unit={unit} />}
+                keyExtractor={(item, index) => item.date + ";" + item.category + ";" + index}
             />
         </SafeAreaView>
     );
 }
 
-
-function calculateTotals(workout) {
-    return workout.reduce((totals, item) => {
-        const distance = parseFloat(item.distance) || 0; 
-        if (!totals[item.category]) {
-            totals[item.category] = 0; 
-        }
-        totals[item.category] += distance; 
-        return totals;
-    }, { "run-fast": 0, "ski": 0, "swim": 0 }); 
+function convertToUnit(distance, unit) {
+    const distanceInNumber = parseFloat(distance);
+    if (isNaN(distanceInNumber)) {
+        return "0.00";
+    }
+    return unit === 'miles' ? (distanceInNumber * 0.621371).toFixed(2) : distanceInNumber.toFixed(2);
 }
 
-function Item({ item }) {
-    const categoryLabel = categoryLabels[item.category] || "Unknown";
 
+
+function Item({ item, unit }) {
+    const theme = useTheme();
+    const distance = convertToUnit(item.distance, unit);
     return (
         <Card style={Styles.card}>
             <Card.Title
-                titleVariant="headlineMedium"
-                
-                title={`${categoryLabel} (${item.date})`}
-                left={(props) => <Avatar.Icon {...props} icon={item.category} size={40} />}
+                titleVariant="titleLarge"
+                title={`${categoryLabels[item.category]} (${item.date})`}
+                subtitle={`Distance: ${distance} ${unit}, Duration: ${item.duration} mins, Date: ${item.date}`}
+                left={(props) => <Avatar.Icon {...props} icon={item.category} />}
             />
-            <Card.Content>
-               
-                <Text>Distance: {item.distance} km | Duration: {item.duration} min</Text>
-            </Card.Content>
         </Card>
     );
 }
+
+function calculateTotals(workout, unit) {
+    const totals = {};
+    workout.forEach(item => {
+        if (!totals[item.category]) totals[item.category] = 0;
+        totals[item.category] += parseFloat(item.distance);
+    });
+    for (let category in totals) {
+        totals[category] = convertToUnit(totals[category], unit);
+    }
+    return totals;
+}
+

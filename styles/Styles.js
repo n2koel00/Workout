@@ -6,7 +6,7 @@ export default Styles = StyleSheet.create({
         flex: 1,
         alignItems: "stretch",
         padding: 10,
-        paddingTop: Constants.statusBarHeight + 10
+        paddingTop: Constants.statusBarHeight + 10,
     },
     categories: {
         flexDirection: "row",
@@ -14,17 +14,18 @@ export default Styles = StyleSheet.create({
         marginTop: 10,
     },
     header: {
-        textAlign: "center"
+        textAlign: "center",
+        marginBottom: 10,
     },
     textInput: {
-        margin: 10
+        margin: 10,
     },
     button: {
-        margin: 10
+        margin: 10,
     },
     card: {
         borderWidth: 1,
-        margin: 10
+        margin: 10,
     },
     totalContainer: {
         flexDirection: 'row',
@@ -39,4 +40,27 @@ export default Styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    radioItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    radioText: {
+        marginLeft: 10,
+        fontSize: 16,
+    },
+    calendarContainer: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        marginVertical: 10,
+        padding: 10,
+        borderColor: '#444',
+        backgroundColor: '#121212',
+    },
+    calendar: {
+        marginBottom: 20,
+    },
+    
+      
 });
